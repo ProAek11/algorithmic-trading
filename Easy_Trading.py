@@ -5,7 +5,7 @@ import MetaTrader5 as mt5
 nombre = 67043467
 clave = 'Genttly.2022'
 servidor = 'RoboForex-ECN'
-path = r'C:\Program Files\MetaTrader 5\terminal64.exe'
+path = r'C:\Program Files\MetaTrader 5\terminal64.exe'                                                               
         
 
 

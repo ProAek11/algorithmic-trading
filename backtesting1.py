@@ -1,3 +1,4 @@
+from time import perf_counter
 from backtesting import Backtest, Strategy
 import pandas as pd
 import numpy as np
@@ -27,12 +28,14 @@ def get_datafeed(timeframe,symbol):
     return data
 
 def get_y(data):
-    y = data.Close
+    y = data.Open
     return y
 
 eurusd = get_datafeed(mt5.TIMEFRAME_M1,'EURUSD')
 
 class TestStrategy(Strategy):
+    per = 10
+    p_val = 0.05
 
     def init(self):
         self.coef = self.I(lambda: np.repeat(np.nan, len(self.data)), name='coef')
@@ -44,9 +47,9 @@ class TestStrategy(Strategy):
         # Simply log the closing price of the series from the reference
         # self.log('Close, %.5f' % self.dataclose[0])
         # self.log(self.coef)
-        per = 10
-        if len(self.data) >= per:
-            self.period = per
+        
+        if len(self.data) >= self.per:
+            self.period = self.per
             X = np.array(range(self.period)).reshape(-1,1)
             y = self.I(get_y,self.data)
             y = y[-self.period:]
@@ -62,20 +65,25 @@ class TestStrategy(Strategy):
 
             self.p_value[-1] = p_values[1]
             self.coef[-1] = model.coef_
-            if (self.coef > 0) and (self.p_value< 0.05):
+            if (self.coef > 0) and (self.p_value< self.p_val):
                 #self.close()
                 price = self.data.Close[-1]
                 self.position.close()
                 # self.log('BUY CREATE, %.5f' % self.dataclose[0])
-                self.buy(size = 10,tp = price + 0.0006, sl = price - 0.0002)
-            if (self.coef < 0) and (self.p_value< 0.05):
+                self.buy(size = 0.1,tp = price + 0.0004, sl = price - 0.0002)
+            if (self.coef < 0) and (self.p_value< self.p_val):
                 #self.close()
                 # self.log('SELL CREATE, %.5f' % self.dataclose[0])
                 price = self.data.Close[-1]
                 self.position.close()
-                self.sell(size = 0.05,tp = price - 0.0006, sl = price + 0.0002)
-            if self.p_value > 10:
-                self.position.close()
+                self.sell(size = 0.1,tp = price - 0.0004, sl = price + 0.0002)
+            # if self.p_value > 0.05:
+            #     self.position.close()
 
 bt = Backtest(eurusd,TestStrategy,cash= 1000)
+stats1, hm = bt.optimize( per = range(8,16,1),
+                     p_val = [0.01,0.05,0.1],
+                     maximize = 'Equity Final [$]',
+                     return_heatmap = True)
 stats1 = bt.run()
+
