@@ -35,22 +35,77 @@ class Basic_funcs():
 
         return tabla
 
-    def open_operations(self,par,volumen,tipo_operacion):
-        orden = {
-        "action": mt5.TRADE_ACTION_DEAL,
-        "symbol": par,
-        "volume": volumen,
-        "type": tipo_operacion,
-        "magic": 202204,
-        "comment": "Bot UdeR1",
-        "type_time": mt5.ORDER_TIME_GTC,
-        "type_filling": mt5.ORDER_FILLING_FOK
+    def open_operations(self,par,volumen,tipo_operacion,nombre_bot,sl= None,tp = None):
 
-        }
+        if (sl == None) and (tp == None):
 
-        mt5.order_send(orden)
+            orden = {
+            "action": mt5.TRADE_ACTION_DEAL,
+            "symbol": par,
+            "volume": volumen,
+            "type": tipo_operacion,
+            "magic": 202204,
+            "comment": nombre_bot,
+            "type_time": mt5.ORDER_TIME_GTC,
+            "type_filling": mt5.ORDER_FILLING_FOK
 
-        print('Se ejecutó una',tipo_operacion, 'con un volumen de', volumen)
+            }
+
+            mt5.order_send(orden)
+
+            print('Se ejecutó una',tipo_operacion, 'con un volumen de', volumen)
+        
+        elif (sl == None) and (tp != None):
+            orden = {
+            "action": mt5.TRADE_ACTION_DEAL,
+            "symbol": par,
+            "tp": tp,
+            "volume": volumen,
+            "type": tipo_operacion,
+            "magic": 202204,
+            "comment": nombre_bot,
+            "type_time": mt5.ORDER_TIME_GTC,
+            "type_filling": mt5.ORDER_FILLING_FOK
+
+            }
+
+            mt5.order_send(orden)
+            print('Se ejecutó una',tipo_operacion, 'con un volumen de', volumen)
+
+        elif (sl != None) and (tp == None):
+            orden = {
+            "action": mt5.TRADE_ACTION_DEAL,
+            "symbol": par,
+            "sl": sl,
+            "volume": volumen,
+            "type": tipo_operacion,
+            "magic": 202204,
+            "comment": nombre_bot,
+            "type_time": mt5.ORDER_TIME_GTC,
+            "type_filling": mt5.ORDER_FILLING_FOK
+
+            }
+
+            mt5.order_send(orden)
+        
+        elif (sl != None) and (tp != None):
+            orden = {
+            "action": mt5.TRADE_ACTION_DEAL,
+            "symbol": par,
+            "sl": sl,
+            "tp": tp,
+            "volume": volumen,
+            "type": tipo_operacion,
+            "magic": 202204,
+            "comment": nombre_bot,
+            "type_time": mt5.ORDER_TIME_GTC,
+            "type_filling": mt5.ORDER_FILLING_FOK
+
+            }
+
+            mt5.order_send(orden)
+            print('Se ejecutó una',tipo_operacion, 'con un volumen de', volumen)
+
     
     def close_all_open_operations(self,par = None):
         
