@@ -52,9 +52,10 @@ def calculate_mean(data,p_sma):
 
 class Desv_strategy(Strategy):
     t_sigma = 1.9
-    tp_val = 0.4
+    tp_val = 0.04
     sl_val = 0.003
     p_sma = 14
+
     def init(self):
         # self.mu = 50.19
         # self.sigma = 10.78
@@ -82,9 +83,9 @@ bt = Backtest(eurusd,Desv_strategy, cash = 10_000)
 
 stats1 = bt.run()
 
-stats1, hm = bt.optimize( t_sigma = [1.1,1.2,1.3,1.4,1.5,1.6,1.7],
-                          tp_val = [0.003,0.004,0.005,0.006,0.007],
+stats1, hm = bt.optimize( t_sigma = [1.1,1.2],
+                          tp_val = [0.003,0.004,0.005],
                           sl_val = [0.003,0.002,0.001],
-                          p_sma = [14,20,30,50],
+                          p_sma = [20],
                      maximize = 'Win Rate [%]',
                      return_heatmap = True)
