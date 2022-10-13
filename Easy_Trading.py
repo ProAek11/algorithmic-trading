@@ -249,3 +249,23 @@ class Basic_funcs():
                                 "type_filling": mt5.ORDER_FILLING_IOC
                             }
                             mt5.order_send(modify_order_request)
+
+    def calculate_position_size(self,symbol, tradeinfo):
+        print(symbol)
+
+        mt5.symbol_select(symbol, True)
+        symbol_info_tick = mt5.symbol_info_tick(symbol)
+        symbol_info = mt5.symbol_info(symbol)
+
+        current_price = (symbol_info_tick.bid + symbol_info_tick.ask) / 2
+        sl = tradeinfo[2]
+        tick_size = symbol_info.trade_tick_size
+
+        balance = mt5.account_info().balance
+        risk_per_trade = 0.01
+        ticks_at_risk = abs(current_price - sl) / tick_size
+        tick_value = symbol_info.trade_tick_value
+
+        position_size = (balance * risk_per_trade) / (ticks_at_risk * tick_value)
+
+        return position_size

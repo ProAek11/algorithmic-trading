@@ -77,7 +77,7 @@ class Estrategia_cruce_medias(Strategy):
                 self.position.close()
                 self.sell()
 
-data = get_datafeed(mt5.TIMEFRAME_M1,'XAUUSD',400)
+data = get_datafeed(mt5.TIMEFRAME_M1,'XAUUSD',99000)
 bt = Backtest(data,Estrategia_cruce_medias, cash= 10_000)
 stats1 = bt.run()
 bt.plot()
@@ -104,7 +104,7 @@ class Estrategia_medias_rsi(Strategy):
                 self.position.close()
                 self.buy()
 
-data = get_datafeed(mt5.TIMEFRAME_M1,'XAUUSD',9000)
+data = get_datafeed(mt5.TIMEFRAME_M1,'XAUUSD',99000)
 bt = Backtest(data,Estrategia_medias_rsi, cash= 10_000)
 stats1 = bt.run()
 bt.plot()

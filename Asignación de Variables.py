@@ -154,3 +154,11 @@ for ticket in lista_tickets:
     mt5.order_send(orden_cierre)
 
 
+###################################################################################
+# Análisis de igualdad #
+
+data = pd.read_excel('resultados_pruebas.xlsx')
+
+from scipy.stats import ttest_rel
+
+stat, p = 

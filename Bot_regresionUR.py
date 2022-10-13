@@ -14,7 +14,6 @@ path = r'C:\Program Files\MetaTrader 5\terminal64.exe'
 
 bfs = Basic_funcs(nombre, clave, servidor, path)
 
-
 def regressor_robotUR():
     while True:
         ######################## Extracción ######################## 
