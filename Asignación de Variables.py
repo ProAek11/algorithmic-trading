@@ -161,4 +161,17 @@ data = pd.read_excel('resultados_pruebas.xlsx')
 
 from scipy.stats import ttest_rel
 
-stat, p = 
+stat, p = ttest_rel(data['Backtesting'], data['Demo'])
+
+if p > 0.05:
+    print("Las dos muestras son estadísticamente iguales con un nivel de confianza de", 1-0.05)
+else:
+    print("Las dos muestras son estadísticamente diferentes con un nivel de confianza de",  1-0.05)
+
+
+stat, p = ttest_rel(data['Backtesting'], data['real'])
+
+if p > 0.05:
+    print("Las dos muestras son estadísticamente iguales con un nivel de confianza de", 1-0.05)
+else:
+    print("Las dos muestras son estadísticamente diferentes con un nivel de confianza de",  1-0.05)
